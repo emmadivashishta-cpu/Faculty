@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Faculty Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+    <h1 class="h2"><i class="fas fa-home me-2"></i>My Dashboard</h1>
+    <div class="badge bg-primary fs-6 p-2 rounded-pill">
+        Current Score: <span class="fw-bold">{{ "%.2f"|format(score['total_score'] if score else 0) }}</span>
+    </div>
+</div>
+
+<!-- Score Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card h-100 border-0 shadow-sm" style="border-left: 5px solid #10b981 !important;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="text-muted text-uppercase mb-1 fw-bold">Quality Score</h6>
+                        <h2 class="display-5 fw-bold text-success mb-0">{{ "%.2f"|format(score['quality_score'] if score
+                            else 0) }}</h2>
+                    </div>
+                    <div class="icon-wrap text-success" style="font-size: 3rem; opacity: 0.2;"><i
+                            class="fas fa-star"></i></div>
+                </div>
+                <div class="mt-3 text-muted small">Based on citations per paper & H-Index</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100 border-0 shadow-sm" style="border-left: 5px solid #3b82f6 !important;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="text-muted text-uppercase mb-1 fw-bold">Impact Score</h6>
+                        <h2 class="display-5 fw-bold text-primary mb-0">{{ "%.2f"|format(score['impact_score'] if score
+                            else 0) }}</h2>
+                    </div>
+                    <div class="icon-wrap text-primary" style="font-size: 3rem; opacity: 0.2;"><i
+                            class="fas fa-globe"></i></div>
+                </div>
+                <div class="mt-3 text-muted small">Based on collaboration, innovation, and funding</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Radar Chart: Multi-dimensional Impact -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold"><i class="fas fa-spider text-primary me-2"></i>Impact Indicators Breakdown</h5>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <canvas id="facultyRadarChart" style="max-height: 350px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bar Chart: Pubs vs Citations -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold"><i class="fas fa-chart-bar text-success me-2"></i>Publications vs Citations
+                </h5>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <canvas id="facultyBarChart" style="max-height: 350px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Year-wise Growth Mockline -->
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold"><i class="fas fa-chart-line text-warning me-2"></i>Year-wise Score Growth
+                    (Projection)</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="facultyLineChart" style="max-height: 300px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Research Data{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+    <h1 class="h2"><i class="fas fa-file-invoice me-2"></i>Update Research Metrics</h1>
+</div>
+
+<form method="POST" action="{{ url_for('faculty_add_research') }}">
+    <div class="row g-4 mb-4">
+        <!-- Core Bibliometrics -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100 border-0 border-top border-primary border-3">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-book-reader me-2 text-primary"></i>Core Bibliometrics</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small mb-4">Update your basic publication metrics. These determine your
+                        <strong>Quality Score</strong>.</p>
+
+                    <div class="row g-3">
+                        <div class="col-sm-6 mb-3">
+                            <label class="form-label fw-bold small text-muted">Total Publications</label>
+                            <input type="number" class="form-control form-control-lg text-primary fw-bold"
+                                name="publications" min="0" value="{{ rd['publications'] if rd else 0 }}" required>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label class="form-label fw-bold small text-muted">Total Citations</label>
+                            <input type="number" class="form-control form-control-lg text-primary fw-bold"
+                                name="citations" min="0" value="{{ rd['citations'] if rd else 0 }}" required>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label class="form-label fw-bold small text-muted">H-Index</label>
+                            <input type="number" class="form-control form-control-lg" name="h_index" min="0"
+                                value="{{ rd['h_index'] if rd else 0 }}" required>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label class="form-label fw-bold small text-muted">i10-Index</label>
+                            <input type="number" class="form-control form-control-lg" name="i10_index" min="0"
+                                value="{{ rd['i10_index'] if rd else 0 }}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Impact Indicators -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100 border-0 border-top border-success border-3">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-project-diagram me-2 text-success"></i>Impact Indicators
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small mb-4">Score yourself on a scale from 0 to 10 for multidimensional impact.
+                        Evaluates <strong>Impact Score</strong>.</p>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-muted d-flex justify-content-between">
+                            <span>Collaboration Score</span>
+                            <span class="text-success fw-bold" id="colVal">{{ ii['collaboration_score'] if ii else 0
+                                }}</span>
+                        </label>
+                        <input type="range" class="form-range" name="collaboration" min="0" max="10" step="0.5"
+                            value="{{ ii['collaboration_score'] if ii else 0 }}"
+                            oninput="document.getElementById('colVal').innerText = this.value">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-muted d-flex justify-content-between">
+                            <span>Innovation Score</span>
+                            <span class="text-success fw-bold" id="innVal">{{ ii['innovation_score'] if ii else 0
+                                }}</span>
+                        </label>
+                        <input type="range" class="form-range" name="innovation" min="0" max="10" step="0.5"
+                            value="{{ ii['innovation_score'] if ii else 0 }}"
+                            oninput="document.getElementById('innVal').innerText = this.value">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-muted d-flex justify-content-between">
+                            <span>Societal Impact Score</span>
+                            <span class="text-success fw-bold" id="socVal">{{ ii['societal_impact_score'] if ii else 0
+                                }}</span>
+                        </label>
+                        <input type="range" class="form-range" name="societal" min="0" max="10" step="0.5"
+                            value="{{ ii['societal_impact_score'] if ii else 0 }}"
+                            oninput="document.getElementById('socVal').innerText = this.value">
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-sm-6 mb-3">
+                            <label class="form-label fw-bold small text-muted">Funding Score (0-10)</label>
+                            <input type="number" class="form-control" name="funding" min="0" max="10" step="0.5"
+                                value="{{ ii['funding_score'] if ii else 0 }}" required>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label class="form-label fw-bold small text-muted">Patents Registered</label>
+                            <input type="number" class="form-control" name="patents" min="0"
+                                value="{{ ii['patents'] if ii else 0 }}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-5">
+        <div
+            class="card-body p-4 text-center bg-light rounded d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="text-start mb-3 mb-md-0">
+                <h5 class="fw-bold mb-1 text-dark">Ready to calculate new score?</h5>
+                <p class="text-muted small mb-0">Changes to your metrics will automatically recalculate your composite
+                    Research Impact Score.</p>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg px-5 fw-bold shadow-sm">
+                <i class="fas fa-calculator me-2"></i>Save & Calculate
+            </button>
+        </div>
+    </div>
+</form>
+{% endblock %}

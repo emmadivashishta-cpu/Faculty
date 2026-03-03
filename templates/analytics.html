@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}System Analytics{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+    <h1 class="h2"><i class="fas fa-chart-line me-2"></i>System Analytics & Config</h1>
+</div>
+
+<div class="row mb-4 h-100 g-4">
+    <!-- Chart: Dept Performance -->
+    <div class="col-xl-8">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold">Department-wise Average Performance</h5>
+            </div>
+            <div class="card-body d-flex justify-content-center align-items-center" style="min-height: 350px;">
+                <canvas id="adminDeptBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Config Card -->
+    <div class="col-xl-4">
+        <div class="card shadow-sm h-100 border-primary border-top border-3">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold"><i class="fas fa-sliders-h me-2 text-primary"></i>Scoring Weights</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted small mb-4">Configure the weight multipliers for calculate the Final Composite
+                    Score. Updates will dynamically trigger recalculation for all faculty.</p>
+                <form action="{{ url_for('update_weights') }}" method="POST">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold d-flex justify-content-between">
+                            <span>Quality Model Weight</span>
+                            <span class="text-primary" id="qVal">{{ current_weights.get('weight_quality', 0.5) }}</span>
+                        </label>
+                        <input type="range" class="form-range" name="weight_quality" min="0" max="2" step="0.1"
+                            value="{{ current_weights.get('weight_quality', 0.5) }}"
+                            oninput="document.getElementById('qVal').innerText = this.value">
+                        <small class="text-muted">Applied to: (Citations/Pubs) + H-Index</small>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold d-flex justify-content-between">
+                            <span>Impact Model Weight</span>
+                            <span class="text-primary" id="iVal">{{ current_weights.get('weight_impact', 0.5) }}</span>
+                        </label>
+                        <input type="range" class="form-range" name="weight_impact" min="0" max="2" step="0.1"
+                            value="{{ current_weights.get('weight_impact', 0.5) }}"
+                            oninput="document.getElementById('iVal').innerText = this.value">
+                        <small class="text-muted">Applied to: Collaboration + Innovation + Societal + Funding +
+                            Patents</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-sync-alt me-1"></i> Update &
+                        Recalculate</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold">Score Distribution (Top 10 Faculty Quality vs Impact)</h5>
+            </div>
+            <div class="card-body d-flex justify-content-center align-items-center"
+                style="min-height: 400px; max-height: 500px;">
+                <canvas id="adminDistPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

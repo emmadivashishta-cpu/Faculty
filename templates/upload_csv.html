@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload Faculty CSV{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+    <h1 class="h2"><i class="fas fa-file-upload me-2"></i>Upload Faculty CSV</h1>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <p class="text-muted mb-4">
+                    Upload a CSV file with the following columns:
+                </p>
+                <ul class="mb-4 small text-muted">
+                    <li><code class="bg-light p-1 rounded text-success">name</code></li>
+                    <li><code class="bg-light p-1 rounded text-success">department</code></li>
+                    <li><code class="bg-light p-1 rounded text-success">publications</code></li>
+                    <li><code class="bg-light p-1 rounded text-success">citations</code></li>
+                    <li><code class="bg-light p-1 rounded text-success">collaboration</code></li>
+                    <li><code class="bg-light p-1 rounded text-success">innovation</code></li>
+                    <li><code class="bg-light p-1 rounded text-success">patents</code> (added for CSC innovation)</li>
+                </ul>
+                <p class="text-muted small mb-4">
+                    * Existing faculty (by matching <code>name</code> or <code>email</code>) will be updated, new names
+                    will be added automatically.
+                </p>
+
+                <h6 class="fw-bold mb-3">Choose a CSV file</h6>
+                <form action="{{ url_for('upload_csv') }}" method="POST" enctype="multipart/form-data">
+                    <div class="mb-4 p-5 text-center bg-light border rounded"
+                        style="border-style: dashed !important; border-color: #cbd5e1 !important;">
+                        <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                        <h6 class="fw-bold text-dark">Drag and drop file here</h6>
+                        <p class="text-muted small mb-3">Limit 200MB per file • CSV</p>
+
+                        <div class="mt-3">
+                            <input class="form-control d-none" type="file" id="csvFile" name="csv_file" accept=".csv"
+                                required onchange="document.getElementById('fileName').innerText = this.files[0].name">
+                            <button type="button" class="btn btn-outline-primary shadow-sm"
+                                onclick="document.getElementById('csvFile').click()">
+                                <i class="fas fa-folder-open me-2"></i>Browse files
+                            </button>
+                            <div id="fileName" class="mt-2 text-primary small fw-bold mt-3"></div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-upload me-2"></i>Upload &
+                            Process</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

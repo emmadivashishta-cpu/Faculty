@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+    <h1 class="h2"><i class="fas fa-user-circle me-2"></i>My Profile</h1>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white py-3 text-center rounded-top">
+                <div class="mb-2 mt-3">
+                    <i class="fas fa-user-astronaut fa-4x opacity-75"></i>
+                </div>
+                <h4 class="mb-0">{{ profile['name'] }}</h4>
+                <p class="mb-2 text-white-50">{{ profile['email'] }}</p>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" action="{{ url_for('faculty_profile') }}">
+                    <div class="mb-4">
+                        <label class="form-label text-muted fw-bold small">Full Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fas fa-user text-muted"></i></span>
+                            <input type="text" class="form-control" name="name" value="{{ profile['name'] }}" required>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted fw-bold small">Department</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i
+                                        class="fas fa-building text-muted"></i></span>
+                                <input type="text" class="form-control" name="department"
+                                    value="{{ profile['department'] }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted fw-bold small">Designation</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i
+                                        class="fas fa-id-badge text-muted"></i></span>
+                                <select class="form-select" name="designation" required>
+                                    <option value="Assistant Professor" {% if
+                                        profile['designation']=='Assistant Professor' %}selected{% endif %}>Assistant
+                                        Professor</option>
+                                    <option value="Associate Professor" {% if
+                                        profile['designation']=='Associate Professor' %}selected{% endif %}>Associate
+                                        Professor</option>
+                                    <option value="Professor" {% if profile['designation']=='Professor' %}selected{%
+                                        endif %}>Professor</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-muted fw-bold small">University</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fas fa-university text-muted"></i></span>
+                            <input type="text" class="form-control" name="university"
+                                value="{{ profile['university'] }}" disabled readonly>
+                        </div>
+                        <small class="text-muted">Contact admin to update affiliation.</small>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary px-4 py-2 fw-bold"><i
+                                class="fas fa-save me-2"></i>Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
