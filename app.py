@@ -6,6 +6,9 @@ from functools import wraps
 import os
 import csv
 import io
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_faculty_impact_key'
